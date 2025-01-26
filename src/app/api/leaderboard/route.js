@@ -18,14 +18,14 @@ export async function GET() {
        GROUP BY observer_id
      )
      SELECT 
-       or.id,
-       or.name,
-       or.times_observed,
-       COALESCE(om.observations_made, 0) as observations_made,
-       or.times_observed + COALESCE(om.observations_made, 0) as total_score
-     FROM observations_received or
-     LEFT JOIN observations_made om ON or.id = om.observer_id
-     ORDER BY total_score DESC
+  obs_rec.id,
+  obs_rec.name,
+  obs_rec.times_observed,
+  COALESCE(om.observations_made, 0) as observations_made,
+  obs_rec.times_observed + COALESCE(om.observations_made, 0) as total_score
+FROM observations_received obs_rec
+LEFT JOIN observations_made om ON obs_rec.id = om.observer_id
+ORDER BY total_score DESC
    `, []);
    return NextResponse.json(result.rows);
  } catch (error) {
